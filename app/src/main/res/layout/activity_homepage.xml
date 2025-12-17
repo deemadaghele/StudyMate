@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     android:background="#E8F4FF">
 
-    <!-- Top Bar with Blue Background -->
     <androidx.cardview.widget.CardView
         android:id="@+id/cardTopBar"
         android:layout_width="match_parent"
@@ -22,7 +21,6 @@
             android:layout_height="wrap_content"
             android:padding="20dp">
 
-            <!-- Profile Picture (Clickable) -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardProfilePic"
                 android:layout_width="55dp"
@@ -46,7 +44,6 @@
 
             </androidx.cardview.widget.CardView>
 
-            <!-- Welcome Text Section -->
             <LinearLayout
                 android:id="@+id/layoutWelcome"
                 android:layout_width="0dp"
@@ -80,7 +77,6 @@
 
             </LinearLayout>
 
-            <!-- Notification Button -->
             <ImageView
                 android:id="@+id/btnNotification"
                 android:layout_width="50dp"
@@ -100,7 +96,6 @@
 
     </androidx.cardview.widget.CardView>
 
-    <!-- Main Content (No Scroll) -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/mainContent"
         android:layout_width="match_parent"
@@ -109,7 +104,6 @@
         app:layout_constraintTop_toBottomOf="@id/cardTopBar"
         app:layout_constraintBottom_toTopOf="@id/bottomNav">
 
-        <!-- Greeting Text -->
         <TextView
             android:id="@+id/tvGreeting"
             android:layout_width="wrap_content"
@@ -133,7 +127,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvGreeting" />
 
-        <!-- My Notes Card -->
         <androidx.cardview.widget.CardView
             android:id="@+id/cardMyNotes"
             android:layout_width="match_parent"
@@ -173,7 +166,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="My Notes and flashcards"
+                            android:text="My Notes and Flashcards"
                             android:textColor="#FFFFFF"
                             android:textSize="21sp"
                             android:textStyle="bold" />
@@ -240,7 +233,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="My Flashcards"
+                            android:text="Create Flashcards"
                             android:textColor="#FFFFFF"
                             android:textSize="24sp"
                             android:textStyle="bold" />
@@ -248,7 +241,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="View All Your Flashcards Here"
+                            android:text="crate a flashcards set that helps you studying"
                             android:textColor="#D1FAE5"
                             android:textSize="13sp"
                             android:layout_marginTop="4dp" />
@@ -316,7 +309,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="View All Your Notes Here"
+                            android:text="View All  Notes Here"
                             android:textColor="#EDE9FE"
                             android:textSize="13sp"
                             android:layout_marginTop="4dp" />

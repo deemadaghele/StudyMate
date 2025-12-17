@@ -1,0 +1,518 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Required Drawable Files:
+
+1. res/drawable/toolbar_group_bg.xml:
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#F3F2F1" />
+    <corners android:radius="4dp" />
+</shape>
+
+2. res/drawable/blue_accent_line.xml:
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#0078D4" />
+    <corners android:radius="2dp" />
+</shape>
+
+3. res/drawable/light_blue_bg.xml:
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#E3F2FD" />
+    <corners android:radius="8dp" />
+</shape>
+-->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FAFAFA">
+
+    <!-- Top Toolbar -->
+    <LinearLayout
+        android:id="@+id/topToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:background="#FFFFFF"
+        android:elevation="2dp">
+
+        <!-- Home Tab -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:clickable="true"
+            android:background="?attr/selectableItemBackgroundBorderless">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Home"
+                android:textColor="#0078D4"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:background="#0078D4"
+                android:layout_marginTop="2dp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Insert"
+            android:textColor="#605E5C"
+            android:textSize="13sp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:clickable="true"
+            android:background="?attr/selectableItemBackgroundBorderless" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Draw"
+            android:textColor="#605E5C"
+            android:textSize="13sp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:clickable="true"
+            android:background="?attr/selectableItemBackgroundBorderless" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="View"
+            android:textColor="#605E5C"
+            android:textSize="13sp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:clickable="true"
+            android:background="?attr/selectableItemBackgroundBorderless" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/btnShare"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@android:drawable/ic_menu_share"
+            android:padding="6dp"
+            android:tint="#0078D4"
+            android:layout_marginEnd="4dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true" />
+
+        <ImageView
+            android:id="@+id/btnMore"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@android:drawable/ic_menu_more"
+            android:padding="6dp"
+            android:tint="#0078D4"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true" />
+    </LinearLayout>
+
+    <!-- Ribbon Toolbar -->
+    <HorizontalScrollView
+        android:id="@+id/ribbonToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_below="@id/topToolbar"
+        android:background="#FFFFFF"
+        android:elevation="1dp"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp">
+
+            <!-- Undo/Redo Group -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@drawable/toolbar_group_bg"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:layout_marginEnd="12dp">
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@android:drawable/ic_menu_revert"
+                    android:padding="6dp"
+                    android:tint="#0078D4"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="24dp"
+                    android:background="#E1DFDD"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginEnd="2dp" />
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@android:drawable/ic_menu_revert"
+                    android:rotation="180"
+                    android:padding="6dp"
+                    android:tint="#0078D4"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true" />
+            </LinearLayout>
+
+            <!-- Text Format Group -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@drawable/toolbar_group_bg"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:layout_marginEnd="12dp">
+
+                <TextView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:text="B"
+                    android:gravity="center"
+                    android:textColor="#0078D4"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true" />
+
+                <TextView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:text="I"
+                    android:gravity="center"
+                    android:textColor="#0078D4"
+                    android:textSize="16sp"
+                    android:textStyle="italic"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true" />
+
+                <TextView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:text="U"
+                    android:gravity="center"
+                    android:textColor="#0078D4"
+                    android:textSize="16sp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="24dp"
+                    android:background="#E1DFDD"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginEnd="2dp" />
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@android:drawable/ic_menu_view"
+                    android:padding="6dp"
+                    android:tint="#0078D4"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true" />
+            </LinearLayout>
+
+            <!-- List Group -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@drawable/toolbar_group_bg"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:layout_marginEnd="12dp">
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@android:drawable/ic_menu_sort_by_size"
+                    android:padding="6dp"
+                    android:tint="#0078D4"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true" />
+            </LinearLayout>
+
+            <!-- Insert Group -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@drawable/toolbar_group_bg"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
+                android:layout_marginEnd="12dp">
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@android:drawable/ic_menu_gallery"
+                    android:padding="6dp"
+                    android:tint="#0078D4"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true" />
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@android:drawable/ic_menu_camera"
+                    android:padding="6dp"
+                    android:tint="#0078D4"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true" />
+            </LinearLayout>
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <!-- Note Content Area -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/ribbonToolbar"
+        android:layout_marginTop="1dp"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <!-- Blue Accent Line - Top -->
+            <View
+                android:layout_width="80dp"
+                android:layout_height="4dp"
+                android:background="@drawable/blue_accent_line"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Page Title -->
+            <EditText
+                android:id="@+id/etPageTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:hint="Page title"
+                android:textColorHint="#B0BEC5"
+                android:textColor="#323130"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                android:inputType="text"
+                android:paddingBottom="8dp"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Date and Time with Blue Background -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/light_blue_bg"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:layout_marginBottom="24dp">
+
+                <TextView
+                    android:id="@+id/tvDateTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Wednesday, December 17, 2025    3:45 PM"
+                    android:textColor="#0078D4"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- Blue Divider Line -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#E3F2FD"
+                android:layout_marginBottom="20dp" />
+
+            <!-- Note Content -->
+            <EditText
+                android:id="@+id/etNoteContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:hint="Start typing your note..."
+                android:textColorHint="#B0BEC5"
+                android:textColor="#323130"
+                android:textSize="15sp"
+                android:lineSpacingExtra="6dp"
+                android:gravity="top"
+                android:minHeight="300dp"
+                android:inputType="textMultiLine|textCapSentences" />
+
+            <!-- Blue Section Divider -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="20dp">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="2dp"
+                    android:layout_weight="1"
+                    android:background="#E3F2FD" />
+
+                <View
+                    android:layout_width="40dp"
+                    android:layout_height="4dp"
+                    android:background="@drawable/blue_accent_line"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="2dp"
+                    android:layout_weight="1"
+                    android:background="#E3F2FD" />
+            </LinearLayout>
+
+            <!-- Quick Actions with Blue Theme -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Quick Actions"
+                android:textColor="#0078D4"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="start">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnAddChecklist"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="Add checklist"
+                    android:textColor="#0078D4"
+                    android:textSize="13sp"
+                    android:textAllCaps="false"
+                    app:strokeColor="#0078D4"
+                    app:strokeWidth="1.5dp"
+                    app:cornerRadius="20dp"
+                    app:icon="@android:drawable/checkbox_off_background"
+                    app:iconTint="#0078D4"
+                    android:layout_marginEnd="8dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnInsertTable"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="Insert table"
+                    android:textColor="#0078D4"
+                    android:textSize="13sp"
+                    android:textAllCaps="false"
+                    app:strokeColor="#0078D4"
+                    app:strokeWidth="1.5dp"
+                    app:cornerRadius="20dp"
+                    app:icon="@android:drawable/ic_menu_view"
+                    app:iconTint="#0078D4"
+                    android:layout_marginEnd="8dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnAddTag"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="Add tag"
+                    android:textColor="#0078D4"
+                    android:textSize="13sp"
+                    android:textAllCaps="false"
+                    app:strokeColor="#0078D4"
+                    app:strokeWidth="1.5dp"
+                    app:cornerRadius="20dp"
+                    app:icon="@android:drawable/ic_menu_add"
+                    app:iconTint="#0078D4" />
+            </LinearLayout>
+
+            <!-- Blue Decorative Elements -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="32dp"
+                android:gravity="center">
+
+                <View
+                    android:layout_width="60dp"
+                    android:layout_height="3dp"
+                    android:background="@drawable/blue_accent_line"
+                    android:layout_marginEnd="12dp" />
+
+                <View
+                    android:layout_width="40dp"
+                    android:layout_height="3dp"
+                    android:background="#B3E5FC" />
+
+                <View
+                    android:layout_width="60dp"
+                    android:layout_height="3dp"
+                    android:background="@drawable/blue_accent_line"
+                    android:layout_marginStart="12dp" />
+            </LinearLayout>
+
+            <!-- Spacer for comfortable scrolling -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="100dp" />
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Floating Action Button -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="24dp"
+        android:src="@android:drawable/ic_menu_save"
+        app:tint="#FFFFFF"
+        app:backgroundTint="#0078D4"
+        android:elevation="6dp" />
+
+</RelativeLayout>
