@@ -1,28 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-Required Drawable Files:
-
-1. res/drawable/toolbar_group_bg.xml:
-<?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="#F3F2F1" />
-    <corners android:radius="4dp" />
-</shape>
-
-2. res/drawable/blue_accent_line.xml:
-<?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="#0078D4" />
-    <corners android:radius="2dp" />
-</shape>
-
-3. res/drawable/light_blue_bg.xml:
-<?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="#E3F2FD" />
-    <corners android:radius="8dp" />
-</shape>
--->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"

@@ -50,7 +50,7 @@ Required Drawable Files:
             android:id="@+id/headerBackground"
             android:layout_width="match_parent"
             android:layout_height="180dp"
-            android:background="@drawable/profile_header_bg" />
+            android:background="#4A90E2" />
 
         <!-- Top Navigation Bar -->
         <LinearLayout
@@ -127,27 +127,15 @@ Required Drawable Files:
                             android:id="@+id/ivProfilePicture"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:src="@android:drawable/ic_menu_gallery"
+                            android:src="@drawable/profile"
                             android:scaleType="centerCrop"
                             android:background="#E3F2FD" />
 
-                        <!-- Edit Photo Button -->
-                        <com.google.android.material.floatingactionbutton.FloatingActionButton
-                            android:id="@+id/btnEditPhoto"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentBottom="true"
-                            android:src="@android:drawable/ic_menu_camera"
-                            app:tint="#FFFFFF"
-                            app:backgroundTint="#0078D4"
-                            app:fabSize="mini"
-                            android:elevation="4dp" />
+
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
             </RelativeLayout>
 
-            <!-- User Info Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
