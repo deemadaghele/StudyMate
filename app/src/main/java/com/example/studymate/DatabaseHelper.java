@@ -1,4 +1,5 @@
-package com.example.studymate;  // <-- your package name
+package com.example.studymate;
+
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -8,11 +9,12 @@ import androidx.annotation.Nullable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Database Info
     public static final String DATABASE_NAME = "ITStudyMate.db";
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
 
     // Table Names
     public static final String TABLE_NOTES = "Notes";
@@ -35,15 +37,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FLASH_ANSWER = "answer";
     public static final String FLASH_COURSE_NAME = "course_name";
     public static final String FLASH_CHAPTER = "chapter";
-    public static final String FLASH_DIFFICULTY = "difficulty"; // Easy, Medium, Hard
+    public static final String FLASH_DIFFICULTY = "difficulty";
     public static final String FLASH_CREATED_BY = "created_by";
     public static final String FLASH_CREATION_DATE = "creation_date";
 
     // Users Table Columns
     public static final String USER_ID = "_id";
     public static final String USER_NAME = "name";
+    public static final String USER_EMAIL = "email";
     public static final String USER_STUDENT_ID = "student_id";
-    public static final String USER_YEAR = "year"; // 1st, 2nd, 3rd, 4th
+    public static final String USER_PASSWORD = "password";
+    public static final String USER_YEAR = "year";
+    public static final String USER_REGISTRATION_DATE = "registration_date";
 
     public DatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -55,8 +60,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String createUsersTable = "CREATE TABLE " + TABLE_USERS + " (" +
                 USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 USER_NAME + " TEXT NOT NULL, " +
+                USER_EMAIL + " TEXT, " +
                 USER_STUDENT_ID + " TEXT UNIQUE NOT NULL, " +
-                USER_YEAR + " TEXT);";
+                USER_PASSWORD + " TEXT NOT NULL, " +
+                USER_YEAR + " TEXT, " +
+                USER_REGISTRATION_DATE + " TEXT);";
 
         // Create Notes Table
         String createNotesTable = "CREATE TABLE " + TABLE_NOTES + " (" +
@@ -93,6 +101,89 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    // ============= USER METHODS  =============
+
+
+    public boolean insertUser(String name, String email, String studentId,
+                              String password, String year) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(USER_NAME, name);
+        cv.put(USER_EMAIL, email);
+        cv.put(USER_STUDENT_ID, studentId);
+        cv.put(USER_PASSWORD, password);
+        cv.put(USER_YEAR, year);
+        cv.put(USER_REGISTRATION_DATE, getCurrentDate());
+
+        long result = db.insert(TABLE_USERS, null, cv);
+        return result != -1;
+    }
+
+    // login check
+    public boolean checkUserLogin(String studentId, String password) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_USERS +
+                " WHERE " + USER_STUDENT_ID + " = ? AND " +
+                USER_PASSWORD + " = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{studentId, password});
+        boolean exists = cursor.getCount() > 0;
+        cursor.close();
+        return exists;
+    }
+
+//no dupicated
+    public boolean checkStudentIdExists(String studentId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_USERS +
+                " WHERE " + USER_STUDENT_ID + " = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{studentId});
+        boolean exists = cursor.getCount() > 0;
+        cursor.close();
+        return exists;
+    }
+
+    //user data getting
+    public Cursor getUserInfo(String studentId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_USERS +
+                " WHERE " + USER_STUDENT_ID + " = ?";
+        return db.rawQuery(query, new String[]{studentId});
+    }
+
+    // updates users data
+    public boolean updateUser(String studentId, String name, String email, String year) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(USER_NAME, name);
+        cv.put(USER_EMAIL, email);
+        cv.put(USER_YEAR, year);
+
+        int result = db.update(TABLE_USERS, cv,
+                USER_STUDENT_ID + " = ?",
+                new String[]{studentId});
+        return result > 0;
+    }
+
+    // change password
+    public boolean changePassword(String studentId, String oldPassword, String newPassword) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        //checks old password
+        if (!checkUserLogin(studentId, oldPassword)) {
+            return false;
+        }
+
+        ContentValues cv = new ContentValues();
+        cv.put(USER_PASSWORD, newPassword);
+
+        int result = db.update(TABLE_USERS, cv,
+                USER_STUDENT_ID + " = ?",
+                new String[]{studentId});
+        return result > 0;
+    }
+
     // ============= INSERT METHODS =============
 
     // Insert a new PDF note
@@ -116,8 +207,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Insert a new flashcard
     public boolean insertFlashcard(String question, String answer, String courseName,
                                    String chapter, String difficulty, String createdBy) {
-        SQLiteDatabase db = this.getWritableDatabase();//open database for writing
-        ContentValues cv = new ContentValues();//cv is like a map/dictionary: column name → value each cv.put(key "in database ", value "in java code ") adds one column value.
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
 
         cv.put(FLASH_QUESTION, question);
         cv.put(FLASH_ANSWER, answer);
@@ -181,6 +272,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         int result = db.delete(TABLE_FLASHCARDS, FLASH_ID + " = ?",
                 new String[]{String.valueOf(flashcardId)});
+        return result > 0;
+    }
+
+    public boolean deleteUser(String studentId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int result = db.delete(TABLE_USERS, USER_STUDENT_ID + " = ?",
+                new String[]{studentId});
         return result > 0;
     }
 

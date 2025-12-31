@@ -27,6 +27,7 @@
                 android:src="@android:drawable/ic_menu_revert"
                 android:padding="8dp"
                 android:tint="#FFFFFF"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:contentDescription="Back" />
 
@@ -34,113 +35,64 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="My Library"
+                android:text="Browse Notes"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:layout_marginStart="12dp" />
 
             <ImageView
-                android:id="@+id/btnSearch"
+                android:id="@+id/btnFilter"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@android:drawable/ic_menu_search"
+                android:src="@android:drawable/ic_menu_sort_by_size"
                 android:padding="8dp"
                 android:tint="#FFFFFF"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
-                android:contentDescription="Search" />
+                android:contentDescription="Filter" />
+
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:paddingBottom="12dp">
+
+        <EditText
+            android:id="@+id/etSearch"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/modern_input_bg"
+            android:hint="Search notes..."
+            android:textColorHint="#939BB4"
+            android:textColor="#323130"
+            android:textSize="15sp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:drawableStart="@android:drawable/ic_menu_search"
+            android:drawablePadding="12dp"
+            android:drawableTint="#64748B" />
+
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:fillViewport="true"
         android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Your Study Materials"
-                android:textColor="#323130"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="8dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="All your notes and flashcard sets in one place"
-                android:textColor="#64748B"
-                android:textSize="14sp"
-                android:layout_marginBottom="24dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="24dp">
-
-                <Button
-                    android:id="@+id/btnAllTab"
-                    android:layout_width="0dp"
-                    android:layout_height="44dp"
-                    android:layout_weight="1"
-                    android:text="All"
-                    android:textSize="14sp"
-                    android:textColor="#FFFFFF"
-                    android:textStyle="bold"
-                    android:layout_marginEnd="8dp"
-                    app:cornerRadius="8dp"
-                    app:backgroundTint="#4A90E2" />
-
-                <Button
-                    android:id="@+id/btnNotesTab"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:layout_width="0dp"
-                    android:layout_height="44dp"
-                    android:layout_weight="1"
-                    android:text="Notes"
-                    android:textSize="14sp"
-                    android:textColor="#586380"
-                    android:textStyle="bold"
-                    android:layout_marginEnd="8dp"
-                    app:cornerRadius="8dp"
-                    app:strokeColor="#D9DDE8"
-                    app:strokeWidth="1.5dp" />
-
-                <Button
-                    android:id="@+id/btnFlashcardsTab"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:layout_width="0dp"
-                    android:layout_height="44dp"
-                    android:layout_weight="1"
-                    android:text="Flashcards"
-                    android:textSize="11sp"
-                    android:textColor="#586380"
-                    android:textStyle="bold"
-                    app:cornerRadius="8dp"
-                    app:strokeColor="#D9DDE8"
-                    app:strokeWidth="1.5dp" />
-
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="My Notes"
-                android:textColor="#323130"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="16dp" />
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="20dp">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardNote1"
@@ -150,7 +102,6 @@
                 app:cardElevation="4dp"
                 android:layout_marginBottom="16dp"
                 android:clickable="true"
-                android:foreground="?attr/selectableItemBackground"
                 app:cardBackgroundColor="#FFFFFF">
 
                 <LinearLayout
@@ -159,27 +110,53 @@
                     android:orientation="vertical"
                     android:padding="20dp">
 
-                    <RelativeLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="12dp">
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="16dp">
 
-                        <ImageView
-                            android:id="@+id/iconNote1"
+                        <androidx.cardview.widget.CardView
                             android:layout_width="40dp"
                             android:layout_height="40dp"
-                            android:src="@android:drawable/ic_menu_report_image"
-                            android:tint="#FF6B6B"
-                            android:padding="8dp"
-                            android:background="@drawable/modern_input_bg"
-                            android:layout_alignParentStart="true" />
+                            app:cardCornerRadius="20dp"
+                            app:cardElevation="0dp">
 
-                    </RelativeLayout>
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/profile"
+                                android:scaleType="centerCrop" />
+
+                        </androidx.cardview.widget.CardView>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:layout_marginStart="12dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Ahmed Salem"
+                                android:textColor="#323130"
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
+
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="ERP Chapter 5"
+                        android:text="Data Structures and Algorithms"
                         android:textColor="#323130"
                         android:textSize="18sp"
                         android:textStyle="bold"
@@ -188,7 +165,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="ERP MODULES..."
+                        android:text="Complete guide for trees, graphs, and sorting algorithms"
                         android:textColor="#64748B"
                         android:textSize="14sp"
                         android:maxLines="2"
@@ -217,7 +194,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="2.5 MB"
+                            android:text="3.2 MB"
                             android:textColor="#586380"
                             android:textSize="13sp"
                             android:layout_marginEnd="16dp" />
@@ -227,12 +204,7 @@
                             android:layout_height="1dp"
                             android:layout_weight="1" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="2 days ago"
-                            android:textColor="#939BB4"
-                            android:textSize="12sp" />
+
 
                     </LinearLayout>
 
@@ -256,27 +228,53 @@
                     android:orientation="vertical"
                     android:padding="20dp">
 
-                    <RelativeLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="12dp">
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="16dp">
 
-                        <ImageView
-                            android:id="@+id/iconNote2"
+                        <androidx.cardview.widget.CardView
                             android:layout_width="40dp"
                             android:layout_height="40dp"
-                            android:src="@android:drawable/ic_menu_report_image"
-                            android:tint="#14B8A6"
-                            android:padding="8dp"
-                            android:background="@drawable/modern_input_bg"
-                            android:layout_alignParentStart="true" />
+                            app:cardCornerRadius="20dp"
+                            app:cardElevation="0dp">
 
-                    </RelativeLayout>
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/profile"
+                                android:scaleType="centerCrop" />
+
+                        </androidx.cardview.widget.CardView>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:layout_marginStart="12dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Sara Mohammed"
+                                android:textColor="#323130"
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
+
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Calculus 101"
+                        android:text="Linear Algebra Notes"
                         android:textColor="#323130"
                         android:textSize="18sp"
                         android:textStyle="bold"
@@ -285,7 +283,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Derivatives, integrals, and applications"
+                        android:text="Vectors, matrices, and transformations explained simply"
                         android:textColor="#64748B"
                         android:textSize="14sp"
                         android:maxLines="2"
@@ -314,7 +312,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="1.8 MB"
+                            android:text="2.1 MB"
                             android:textColor="#586380"
                             android:textSize="13sp"
                             android:layout_marginEnd="16dp" />
@@ -324,12 +322,6 @@
                             android:layout_height="1dp"
                             android:layout_weight="1" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="1 week ago"
-                            android:textColor="#939BB4"
-                            android:textSize="12sp" />
 
                     </LinearLayout>
 
@@ -338,7 +330,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardFlashcard2"
+                android:id="@+id/cardNote3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="16dp"
@@ -353,27 +345,53 @@
                     android:orientation="vertical"
                     android:padding="20dp">
 
-                    <RelativeLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="12dp">
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="16dp">
 
-                        <ImageView
-                            android:id="@+id/iconFlashcard2"
+                        <androidx.cardview.widget.CardView
                             android:layout_width="40dp"
                             android:layout_height="40dp"
-                            android:src="@android:drawable/ic_menu_view"
-                            android:tint="#D78FEE"
-                            android:padding="8dp"
-                            android:background="@drawable/modern_input_bg"
-                            android:layout_alignParentStart="true" />
+                            app:cardCornerRadius="20dp"
+                            app:cardElevation="0dp">
 
-                    </RelativeLayout>
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:src="@drawable/profile"
+                                android:scaleType="centerCrop" />
+
+                        </androidx.cardview.widget.CardView>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:layout_marginStart="12dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Khaled Ali"
+                                android:textColor="#323130"
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
+
+
+                        </LinearLayout>
+
+
+
+                    </LinearLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="English Vocabulary"
+                        android:text="TQM"
                         android:textColor="#323130"
                         android:textSize="18sp"
                         android:textStyle="bold"
@@ -382,7 +400,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Common words and their meanings for exam prep"
+                        android:text="Introduction to TQM concepts"
                         android:textColor="#64748B"
                         android:textSize="14sp"
                         android:maxLines="2"
@@ -403,7 +421,15 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="🃏 18 cards"
+                            android:text="📄 PDF"
+                            android:textColor="#586380"
+                            android:textSize="13sp"
+                            android:layout_marginEnd="16dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="4.5 MB"
                             android:textColor="#586380"
                             android:textSize="13sp"
                             android:layout_marginEnd="16dp" />
@@ -413,12 +439,7 @@
                             android:layout_height="1dp"
                             android:layout_weight="1" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="5 days ago"
-                            android:textColor="#939BB4"
-                            android:textSize="12sp" />
+
 
                     </LinearLayout>
 
