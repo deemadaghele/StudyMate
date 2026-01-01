@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.StudyMate">
 
-        <!-- Login Activity - الشاشة الأولى اللي بتفتح -->
+        <!-- Login Activity  -->
         <activity
             android:name=".LoginActivity"
             android:exported="true">
@@ -27,15 +27,20 @@
             android:name=".RegistrationActivity"
             android:exported="false" />
 
-        <!-- Home Page -->
-        <activity
-            android:name=".HomePage"
-            android:exported="false" />
+
 
         <!-- Main Activity -->
         <activity
             android:name=".MainActivity"
             android:exported="false" />
+
+        <activity
+            android:name=".UserProfileActivity"
+            android:exported="false" />
+        <activity android:name=".LibraryActivity" />
+        <activity android:name=".CreateFlashcardActivity" />
+        <activity android:name=".CreateNoteActivity" />
+        <activity android:name=".BrowseNotesActivity" />
 
     </application>
 

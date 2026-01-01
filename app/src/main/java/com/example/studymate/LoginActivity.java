@@ -108,14 +108,12 @@ public class LoginActivity extends AppCompatActivity {
 
                 Toast.makeText(this, "Welcome " + userName + "!", Toast.LENGTH_LONG).show();
                 cursor.close();
-
-                // Go to MainActivity
-                // Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                // intent.putExtra("studentId", studentId);
-                // intent.putExtra("userName", userName);
-                // intent.putExtra("userYear", userYear);
-                // startActivity(intent);
-                // finish();
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                intent.putExtra("studentId", studentId);
+                intent.putExtra("userName", userName);
+                intent.putExtra("userYear", userYear);
+                startActivity(intent);
+                finish();
             }
         } else {
             Toast.makeText(this, "Invalid Student ID or Password", Toast.LENGTH_SHORT).show();
@@ -130,12 +128,11 @@ public class LoginActivity extends AppCompatActivity {
 
             Toast.makeText(this, "Welcome back " + userName + "!", Toast.LENGTH_SHORT).show();
 
-            // Go directly to MainActivity
-            // Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            // intent.putExtra("studentId", studentId);
-            // intent.putExtra("userName", userName);
-            // startActivity(intent);
-            // finish();
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            intent.putExtra("studentId", studentId);
+            intent.putExtra("userName", userName);
+            startActivity(intent);
+            finish();
         }
     }
 

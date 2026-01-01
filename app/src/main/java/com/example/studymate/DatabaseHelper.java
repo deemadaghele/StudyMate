@@ -288,4 +288,71 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         return sdf.format(new Date());
     }
+
+    // Add these methods to DatabaseHelper.java
+
+    // Get total notes count for a user
+    public int getUserNotesCount(String studentId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT COUNT(*) FROM " + TABLE_NOTES +
+                " WHERE " + NOTES_UPLOADED_BY + " = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{studentId});
+        int count = 0;
+        if (cursor.moveToFirst()) {
+            count = cursor.getInt(0);
+        }
+        cursor.close();
+        return count;
+    }
+
+    // Get total flashcards count for a user
+    public int getUserFlashcardsCount(String studentId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT COUNT(*) FROM " + TABLE_FLASHCARDS +
+                " WHERE " + FLASH_CREATED_BY + " = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{studentId});
+        int count = 0;
+        if (cursor.moveToFirst()) {
+            count = cursor.getInt(0);
+        }
+        cursor.close();
+        return count;
+    }
+
+    // Get all notes by a specific user
+    public Cursor getNotesByUser(String studentId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_NOTES +
+                " WHERE " + NOTES_UPLOADED_BY + " = ?" +
+                " ORDER BY " + NOTES_UPLOAD_DATE + " DESC";
+        return db.rawQuery(query, new String[]{studentId});
+    }
+
+    // Get all flashcards by a specific user
+    public Cursor getFlashcardsByUser(String studentId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_FLASHCARDS +
+                " WHERE " + FLASH_CREATED_BY + " = ?" +
+                " ORDER BY " + FLASH_CREATION_DATE + " DESC";
+        return db.rawQuery(query, new String[]{studentId});
+    }
+
+    // Get all notes (for browse)
+    public Cursor getAllNotes() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_NOTES +
+                " ORDER BY " + NOTES_UPLOAD_DATE + " DESC";
+        return db.rawQuery(query, null);
+    }
+
+    // Search notes by title or course
+    public Cursor searchNotes(String searchQuery) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_NOTES +
+                " WHERE " + NOTES_TITLE + " LIKE ? OR " +
+                NOTES_COURSE_NAME + " LIKE ?" +
+                " ORDER BY " + NOTES_UPLOAD_DATE + " DESC";
+        String searchPattern = "%" + searchQuery + "%";
+        return db.rawQuery(query, new String[]{searchPattern, searchPattern});
+    }
 }
