@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Database Info
@@ -20,7 +21,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_USERS = "Users";
 
     // Notes Table Columns
-    public static final String NOTES_ID = "_id";
+    public static final String NOTES_ID = "noteID";
     public static final String NOTES_TITLE = "title";
     public static final String NOTES_COURSE_NAME = "course_name";
     public static final String NOTES_CHAPTER = "chapter";
@@ -30,20 +31,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String NOTES_FILE_SIZE = "file_size";
 
     // Flashcards Table Columns
-    public static final String FLASH_ID = "_id";
+    public static final String FLASH_ID = "flashID";
     public static final String FLASH_QUESTION = "question";
     public static final String FLASH_ANSWER = "answer";
     public static final String FLASH_COURSE_NAME = "course_name";
     public static final String FLASH_CHAPTER = "chapter";
-    public static final String FLASH_DIFFICULTY = "difficulty"; // Easy, Medium, Hard
     public static final String FLASH_CREATED_BY = "created_by";
     public static final String FLASH_CREATION_DATE = "creation_date";
 
     // Users Table Columns
-    public static final String USER_ID = "_id";
+    public static final String USER_ID = "userID";
     public static final String USER_NAME = "name";
     public static final String USER_STUDENT_ID = "student_id";
-    public static final String USER_YEAR = "year"; // 1st, 2nd, 3rd, 4th
 
     public DatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -55,8 +54,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String createUsersTable = "CREATE TABLE " + TABLE_USERS + " (" +
                 USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 USER_NAME + " TEXT NOT NULL, " +
-                USER_STUDENT_ID + " TEXT UNIQUE NOT NULL, " +
-                USER_YEAR + " TEXT);";
+                USER_STUDENT_ID + " TEXT UNIQUE NOT NULL)";
 
         // Create Notes Table
         String createNotesTable = "CREATE TABLE " + TABLE_NOTES + " (" +
@@ -76,7 +74,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 FLASH_ANSWER + " TEXT NOT NULL, " +
                 FLASH_COURSE_NAME + " TEXT NOT NULL, " +
                 FLASH_CHAPTER + " TEXT, " +
-                FLASH_DIFFICULTY + " TEXT, " +
                 FLASH_CREATED_BY + " TEXT, " +
                 FLASH_CREATION_DATE + " TEXT);";
 
@@ -95,7 +92,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // ============= INSERT METHODS =============
 
-    // Insert a new PDF note
+    // Insert new pdf
     public boolean insertNote(String title, String courseName, String chapter,
                               String pdfPath, String uploadedBy, long fileSize) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -123,7 +120,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(FLASH_ANSWER, answer);
         cv.put(FLASH_COURSE_NAME, courseName);
         cv.put(FLASH_CHAPTER, chapter);
-        cv.put(FLASH_DIFFICULTY, difficulty);
         cv.put(FLASH_CREATED_BY, createdBy);
         cv.put(FLASH_CREATION_DATE, getCurrentDate());
 
