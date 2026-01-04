@@ -20,15 +20,7 @@
             android:gravity="center_vertical"
             android:padding="16dp">
 
-            <ImageView
-                android:id="@+id/btnBack"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@android:drawable/ic_menu_close_clear_cancel"
-                android:padding="8dp"
-                android:tint="#FFFFFF"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:clickable="true" />
+
 
             <TextView
                 android:layout_width="0dp"
@@ -38,18 +30,8 @@
                 android:textColor="#FFFFFF"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:layout_marginStart="12dp"
-                />
+                android:layout_marginStart="12dp" />
 
-            <ImageView
-                android:id="@+id/btnHelp"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@android:drawable/ic_menu_help"
-                android:padding="8dp"
-                android:tint="#FFFFFF"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:clickable="true" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
@@ -82,6 +64,7 @@
                 android:textSize="14sp"
                 android:layout_marginBottom="32dp" />
 
+            <!-- Note Title -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -106,7 +89,7 @@
                 android:layout_marginBottom="24dp">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etNoteTitle"
+                    android:id="@+id/titleEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
@@ -115,6 +98,67 @@
                     android:textColor="#323130" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- Course Spinner -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Course *"
+                android:textColor="#323130"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="#FFFFFF"
+                android:layout_marginBottom="24dp">
+
+                <Spinner
+                    android:id="@+id/courseSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:padding="12dp"
+                    android:spinnerMode="dropdown" />
+            </androidx.cardview.widget.CardView>
+
+            <!-- Chapter Number -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chapter Number *"
+                android:textColor="#323130"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilChapter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="e.g. 1, 2, 3..."
+                app:boxStrokeColor="#4A90E2"
+                app:hintTextColor="#4A90E2"
+                app:boxCornerRadiusTopStart="12dp"
+                app:boxCornerRadiusTopEnd="12dp"
+                app:boxCornerRadiusBottomStart="12dp"
+                app:boxCornerRadiusBottomEnd="12dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_marginBottom="24dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/chapterEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:textSize="16sp"
+                    android:textColor="#323130" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Description -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -150,6 +194,7 @@
                     android:textColor="#323130" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- PDF File Upload -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -178,27 +223,29 @@
                     android:padding="32dp">
 
                     <ImageView
-                        android:layout_width="64dp"
-                        android:layout_height="64dp"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
                         android:src="@android:drawable/ic_menu_upload"
                         android:tint="#4A90E2"
-                        android:layout_marginBottom="16dp" />
+                        android:layout_marginBottom="20dp"
+                        android:background="@drawable/upload_icon_bg"
+                        android:padding="16dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Select PDF File"
+                        android:text="📄 Select PDF File"
                         android:textColor="#4A90E2"
-                        android:textSize="18sp"
+                        android:textSize="20sp"
                         android:textStyle="bold"
-                        android:layout_marginBottom="8dp" />
+                        android:layout_marginBottom="10dp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Tap to browse your files"
                         android:textColor="#64748B"
-                        android:textSize="14sp"
+                        android:textSize="15sp"
                         android:layout_marginBottom="16dp" />
 
                     <TextView
@@ -275,6 +322,7 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
+            <!-- Info Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -308,15 +356,16 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
+            <!-- Upload Button -->
             <Button
-                android:id="@+id/btnUploadPdf"
+                android:id="@+id/uploadButton"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:text="Upload Note"
                 android:textColor="#FFFFFF"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:enabled="false"
+                android:enabled="true"
                 app:backgroundTint="#4A90E2"
                 app:cornerRadius="12dp"
                 app:icon="@android:drawable/ic_menu_upload"

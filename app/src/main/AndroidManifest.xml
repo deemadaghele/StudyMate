@@ -2,7 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Permissions -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
+        android:requestLegacyExternalStorage="true"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -10,9 +19,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.StudyMate">
+        android:theme="@style/Theme.StudyMate"
+        tools:targetApi="31">
 
-        <!-- Login Activity  -->
+        <!-- Login Activity (Launcher) -->
         <activity
             android:name=".LoginActivity"
             android:exported="true">
@@ -27,20 +37,56 @@
             android:name=".RegistrationActivity"
             android:exported="false" />
 
-
-
         <!-- Main Activity -->
         <activity
             android:name=".MainActivity"
             android:exported="false" />
 
+        <!-- User Profile Activity -->
         <activity
             android:name=".UserProfileActivity"
             android:exported="false" />
-        <activity android:name=".LibraryActivity" />
-        <activity android:name=".CreateFlashcardActivity" />
-        <activity android:name=".CreateNoteActivity" />
-        <activity android:name=".BrowseNotesActivity" />
+
+        <!-- Library Activity -->
+        <activity
+            android:name=".LibraryActivity"
+            android:exported="false" />
+
+        <!-- Create Flashcard Activity -->
+        <activity
+            android:name=".CreateFlashcardActivity"
+            android:exported="false" />
+
+        <!-- Create Flashcards Activity (الي عملناه) -->
+        <activity
+            android:name=".CreateFlashCards"
+            android:exported="false" />
+
+        <!-- Create Note Activity -->
+        <activity
+            android:name=".CreateNoteActivity"
+            android:exported="false" />
+
+        <!-- Upload PDF Activity (الي عملناه) -->
+        <activity
+            android:name=".uploadPdfActivity"
+            android:exported="false" />
+
+        <!-- Browse Notes Activity -->
+        <activity
+            android:name=".BrowseNotesActivity"
+            android:exported="false" />
+
+        <!-- FileProvider for sharing PDFs -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
 
     </application>
 

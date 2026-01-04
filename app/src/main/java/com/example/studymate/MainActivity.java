@@ -1,26 +1,24 @@
 package com.example.studymate;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 public class MainActivity extends AppCompatActivity {
 
-    // Views
+
     TextView tvUserName, tvWelcomeBack;
     ImageView imgProfilePic, btnNotification;
     CardView cardLibrary, cardFlashcards, cardCreateNote, cardBrowseNotes;
 
     // User data
     String studentId, userName, userYear;
-    SharedPreferences sharedPreferences;
+    SessionManager session;
     DatabaseHelper dbHelper;
 
     @Override
@@ -31,14 +29,23 @@ public class MainActivity extends AppCompatActivity {
         // Initialize views
         initializeViews();
 
-        // Initialize database and preferences
+        // Initialize database and session
         dbHelper = new DatabaseHelper(this);
-        sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
+        session = new SessionManager(this);
 
-        // Get user data from intent or SharedPreferences
+        // Check if user is logged in
+        if (!session.isLoggedIn()) {
+            Toast.makeText(this, "Please login first", Toast.LENGTH_SHORT).show();
+            Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(loginIntent);
+            finish();
+            return;
+        }
+
+        // Get user data from session
         getUserData();
 
-        // Set user name in UI
+        // Set user name
         if (userName != null && !userName.isEmpty()) {
             tvUserName.setText(userName);
         }
@@ -46,8 +53,7 @@ public class MainActivity extends AppCompatActivity {
         // Set click listeners
         setClickListeners();
 
-        // Setup back press handler
-        setupBackPressHandler();
+
     }
 
     private void initializeViews() {
@@ -63,30 +69,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getUserData() {
-        // Try to get data from intent first
-        Intent intent = getIntent();
-        studentId = intent.getStringExtra("studentId");
-        userName = intent.getStringExtra("userName");
-        userYear = intent.getStringExtra("userYear");
-
-        // If not in intent, try SharedPreferences
-        if (studentId == null || studentId.isEmpty()) {
-            studentId = sharedPreferences.getString("studentId", "");
-            userName = sharedPreferences.getString("userName", "");
-            userYear = sharedPreferences.getString("userYear", "");
-        }
-
-        // If still empty, go back to login
-        if (studentId == null || studentId.isEmpty()) {
-            Toast.makeText(this, "Please login first", Toast.LENGTH_SHORT).show();
-            Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
-            startActivity(loginIntent);
-            finish();
-        }
+        // Get data from SessionManager
+        studentId = session.getStudentId();
+        userName = session.getUserName();
+        userYear = session.getUserYear();
     }
 
     private void setClickListeners() {
-        // Profile picture click - go to profile
+        // Profile picture click go to profile
         imgProfilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,30 +111,24 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, LibraryActivity.class);
-                intent.putExtra("studentId", studentId);
-                intent.putExtra("userName", userName);
                 startActivity(intent);
             }
         });
 
-        // Flashcards card click - Navigate to CreateFlashcardsActivity
+        // Flashcards card click - Navigate to CreateFlashCards
         cardFlashcards.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, CreateFlashcardActivity.class);
-                intent.putExtra("studentId", studentId);
-                intent.putExtra("userName", userName);
+                Intent intent = new Intent(MainActivity.this, CreateFlashCards.class);
                 startActivity(intent);
             }
         });
 
-        // Create Note card click - Navigate to CreateNotesActivity
+        // Create Note card click - Navigate to uploadPdfActivity
         cardCreateNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, CreateNoteActivity.class);
-                intent.putExtra("studentId", studentId);
-                intent.putExtra("userName", userName);
+                Intent intent = new Intent(MainActivity.this, uploadPdfActivity.class);
                 startActivity(intent);
             }
         });
@@ -154,53 +138,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, BrowseNotesActivity.class);
-                intent.putExtra("studentId", studentId);
-                intent.putExtra("userName", userName);
                 startActivity(intent);
-            }
-        });
-    }
-
-    // Logout functionality
-    private void logout() {
-        new AlertDialog.Builder(this)
-                .setTitle("Logout")
-                .setMessage("Are you sure you want to logout?")
-                .setPositiveButton("Yes", (dialog, which) -> {
-                    // Clear SharedPreferences
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.clear();
-                    editor.apply();
-
-                    Toast.makeText(MainActivity.this, "Logged out successfully", Toast.LENGTH_SHORT).show();
-
-                    // Go back to login
-                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                    finish();
-                })
-                .setNegativeButton("No", null)
-                .show();
-    }
-
-    // Handle back press using AndroidX's OnBackPressedDispatcher
-    private void setupBackPressHandler() {
-        getOnBackPressedDispatcher().addCallback(this, new androidx.activity.OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                // Show logout dialog when back is pressed
-                new AlertDialog.Builder(MainActivity.this)
-                        .setTitle("Exit App")
-                        .setMessage("Do you want to logout or just exit?")
-                        .setPositiveButton("Logout", (dialog, which) -> logout())
-                        .setNegativeButton("Just Exit", (dialog, which) -> {
-                            // Disable this callback and trigger back press again
-                            setEnabled(false);
-                            getOnBackPressedDispatcher().onBackPressed();
-                        })
-                        .setNeutralButton("Cancel", null)
-                        .show();
             }
         });
     }

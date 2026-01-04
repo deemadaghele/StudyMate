@@ -14,7 +14,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Database Info
     public static final String DATABASE_NAME = "ITStudyMate.db";
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 3; // ← تم التحديث من 2 إلى 3
 
     // Table Names
     public static final String TABLE_NOTES = "Notes";
@@ -37,9 +37,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String FLASH_ANSWER = "answer";
     public static final String FLASH_COURSE_NAME = "course_name";
     public static final String FLASH_CHAPTER = "chapter";
-
     public static final String FLASH_DIFFICULTY = "difficulty";
-
     public static final String FLASH_CREATED_BY = "created_by";
     public static final String FLASH_CREATION_DATE = "creation_date";
 
@@ -48,7 +46,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String USER_NAME = "name";
     public static final String USER_EMAIL = "email";
     public static final String USER_STUDENT_ID = "student_id";
-
     public static final String USER_PASSWORD = "password";
     public static final String USER_YEAR = "year";
     public static final String USER_REGISTRATION_DATE = "registration_date";
@@ -64,15 +61,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String createUsersTable = "CREATE TABLE " + TABLE_USERS + " (" +
                 USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 USER_NAME + " TEXT NOT NULL, " +
-
-                USER_STUDENT_ID + " TEXT UNIQUE NOT NULL)";
-
                 USER_EMAIL + " TEXT, " +
                 USER_STUDENT_ID + " TEXT UNIQUE NOT NULL, " +
                 USER_PASSWORD + " TEXT NOT NULL, " +
                 USER_YEAR + " TEXT, " +
                 USER_REGISTRATION_DATE + " TEXT);";
-
 
         // Create Notes Table
         String createNotesTable = "CREATE TABLE " + TABLE_NOTES + " (" +
@@ -92,6 +85,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 FLASH_ANSWER + " TEXT NOT NULL, " +
                 FLASH_COURSE_NAME + " TEXT NOT NULL, " +
                 FLASH_CHAPTER + " TEXT, " +
+                FLASH_DIFFICULTY + " TEXT, " +
                 FLASH_CREATED_BY + " TEXT, " +
                 FLASH_CREATION_DATE + " TEXT);";
 
@@ -110,7 +104,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // ============= USER METHODS  =============
 
-
     public boolean insertUser(String name, String email, String studentId,
                               String password, String year) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -127,7 +120,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result != -1;
     }
 
-    // login check
     public boolean checkUserLogin(String studentId, String password) {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM " + TABLE_USERS +
@@ -139,7 +131,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return exists;
     }
 
-//no dupicated
     public boolean checkStudentIdExists(String studentId) {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM " + TABLE_USERS +
@@ -150,7 +141,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return exists;
     }
 
-    //user data getting
     public Cursor getUserInfo(String studentId) {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM " + TABLE_USERS +
@@ -158,7 +148,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.rawQuery(query, new String[]{studentId});
     }
 
-    // updates users data
     public boolean updateUser(String studentId, String name, String email, String year) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -173,11 +162,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result > 0;
     }
 
-    // change password
     public boolean changePassword(String studentId, String oldPassword, String newPassword) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        //checks old password
         if (!checkUserLogin(studentId, oldPassword)) {
             return false;
         }
@@ -193,7 +180,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // ============= INSERT METHODS =============
 
-    // Insert new pdf
     public boolean insertNote(String title, String courseName, String chapter,
                               String pdfPath, String uploadedBy, long fileSize) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -211,7 +197,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result != -1;
     }
 
-    // Insert a new flashcard
     public boolean insertFlashcard(String question, String answer, String courseName,
                                    String chapter, String difficulty, String createdBy) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -221,6 +206,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put(FLASH_ANSWER, answer);
         cv.put(FLASH_COURSE_NAME, courseName);
         cv.put(FLASH_CHAPTER, chapter);
+        cv.put(FLASH_DIFFICULTY, difficulty);
         cv.put(FLASH_CREATED_BY, createdBy);
         cv.put(FLASH_CREATION_DATE, getCurrentDate());
 
@@ -230,7 +216,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // ============= RETRIEVE METHODS =============
 
-    // Get all notes for a specific course
     public Cursor getAllNotesByCourse(String courseName) {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM " + TABLE_NOTES +
@@ -239,7 +224,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.rawQuery(query, new String[]{courseName});
     }
 
-    // Get all flashcards for a specific course
     public Cursor getAllFlashcardsByCourse(String courseName) {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM " + TABLE_FLASHCARDS +
@@ -247,7 +231,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.rawQuery(query, new String[]{courseName});
     }
 
-    // Get flashcards by chapter
     public Cursor getFlashcardsByChapter(String courseName, String chapter) {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM " + TABLE_FLASHCARDS +
@@ -256,7 +239,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.rawQuery(query, new String[]{courseName, chapter});
     }
 
-    // Get all courses (distinct)
     public Cursor getAllCourses() {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT DISTINCT " + NOTES_COURSE_NAME +
@@ -295,9 +277,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return sdf.format(new Date());
     }
 
-    // Add these methods to DatabaseHelper.java
+    // ============= USER STATISTICS =============
 
-    // Get total notes count for a user
     public int getUserNotesCount(String studentId) {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT COUNT(*) FROM " + TABLE_NOTES +
@@ -311,7 +292,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return count;
     }
 
-    // Get total flashcards count for a user
     public int getUserFlashcardsCount(String studentId) {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT COUNT(*) FROM " + TABLE_FLASHCARDS +
@@ -325,7 +305,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return count;
     }
 
-    // Get all notes by a specific user
+    // ============= GET ALL ITEMS =============
+
     public Cursor getNotesByUser(String studentId) {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM " + TABLE_NOTES +
@@ -334,7 +315,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.rawQuery(query, new String[]{studentId});
     }
 
-    // Get all flashcards by a specific user
     public Cursor getFlashcardsByUser(String studentId) {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM " + TABLE_FLASHCARDS +
@@ -343,7 +323,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.rawQuery(query, new String[]{studentId});
     }
 
-    // Get all notes (for browse)
     public Cursor getAllNotes() {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM " + TABLE_NOTES +
@@ -351,7 +330,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.rawQuery(query, null);
     }
 
-    // Search notes by title or course
+    public Cursor getAllFlashcards() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_FLASHCARDS +
+                " ORDER BY " + FLASH_CREATION_DATE + " DESC";
+        return db.rawQuery(query, null);
+    }
+
+    // ============= SEARCH METHODS =============
+
     public Cursor searchNotes(String searchQuery) {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM " + TABLE_NOTES +
@@ -360,5 +347,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 " ORDER BY " + NOTES_UPLOAD_DATE + " DESC";
         String searchPattern = "%" + searchQuery + "%";
         return db.rawQuery(query, new String[]{searchPattern, searchPattern});
+    }
+
+    public Cursor searchFlashcards(String searchQuery) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_FLASHCARDS +
+                " WHERE " + FLASH_QUESTION + " LIKE ? OR " +
+                FLASH_ANSWER + " LIKE ? OR " +
+                FLASH_COURSE_NAME + " LIKE ?" +
+                " ORDER BY " + FLASH_CREATION_DATE + " DESC";
+        String searchPattern = "%" + searchQuery + "%";
+        return db.rawQuery(query, new String[]{searchPattern, searchPattern, searchPattern});
     }
 }

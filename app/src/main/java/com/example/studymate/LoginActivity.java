@@ -1,7 +1,6 @@
 package com.example.studymate;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
@@ -19,7 +18,7 @@ public class LoginActivity extends AppCompatActivity {
     CheckBox rememberMe;
     TextView signUpLink, forgotPassword;
     DatabaseHelper dbHelper;
-    SharedPreferences sharedPreferences;
+    SessionManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,14 +33,17 @@ public class LoginActivity extends AppCompatActivity {
         signUpLink = findViewById(R.id.signUpLink);
         forgotPassword = findViewById(R.id.forgotPassword);
 
-        // Initialize database
+        // Initialize database and session
         dbHelper = new DatabaseHelper(this);
+        session = new SessionManager(this);
 
-        // Initialize SharedPreferences
-        sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
-
-        // Check if user is already logged in
-        checkRememberedUser();
+        // Check if user is already logged in (BUT ONLY if session exists)
+        if (session.isLoggedIn()) {
+            // User is logged in, go to MainActivity
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
 
         // Login button click
         loginBtn.setOnClickListener(new View.OnClickListener() {
@@ -95,23 +97,14 @@ public class LoginActivity extends AppCompatActivity {
                 String userYear = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.USER_YEAR));
                 String userEmail = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.USER_EMAIL));
 
-                // Save to SharedPreferences if remember me is checked
-                if (rememberMe.isChecked()) {
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putBoolean("isLoggedIn", true);
-                    editor.putString("studentId", studentId);
-                    editor.putString("userName", userName);
-                    editor.putString("userYear", userYear);
-                    editor.putString("userEmail", userEmail);
-                    editor.apply();
-                }
+                // Save to SessionManager (always save - remember me handled automatically)
+                session.createLoginSession(studentId, userName, userEmail, userYear);
 
                 Toast.makeText(this, "Welcome " + userName + "!", Toast.LENGTH_LONG).show();
                 cursor.close();
+
+                // Go to MainActivity
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                intent.putExtra("studentId", studentId);
-                intent.putExtra("userName", userName);
-                intent.putExtra("userYear", userYear);
                 startActivity(intent);
                 finish();
             }
@@ -121,16 +114,14 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void checkRememberedUser() {
-        boolean isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false);
-        if (isLoggedIn) {
-            String studentId = sharedPreferences.getString("studentId", "");
-            String userName = sharedPreferences.getString("userName", "");
+        // Check if user is already logged in using SessionManager
+        if (session.isLoggedIn()) {
+            String userName = session.getUserName();
 
             Toast.makeText(this, "Welcome back " + userName + "!", Toast.LENGTH_SHORT).show();
 
+            // Go directly to MainActivity
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            intent.putExtra("studentId", studentId);
-            intent.putExtra("userName", userName);
             startActivity(intent);
             finish();
         }

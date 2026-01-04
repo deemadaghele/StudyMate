@@ -16,7 +16,7 @@ public class RegistrationActivity extends AppCompatActivity {
     TextInputEditText etFullName, etEmail, etStudentId, etPassword, etConfirmPassword;
     Button btnRegister;
     CheckBox cbTerms;
-    ImageView btnClose;
+
     TextView tvLogin;
     DatabaseHelper dbHelper;
 
@@ -33,7 +33,7 @@ public class RegistrationActivity extends AppCompatActivity {
         etConfirmPassword = findViewById(R.id.etConfirmPassword);
         btnRegister = findViewById(R.id.btnRegister);
         cbTerms = findViewById(R.id.cbTerms);
-        btnClose = findViewById(R.id.btnClose);
+
         tvLogin = findViewById(R.id.tvLogin);
 
         // Initialize database
@@ -47,13 +47,6 @@ public class RegistrationActivity extends AppCompatActivity {
             }
         });
 
-        // Close button
-        btnClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
 
         // Login link
         tvLogin.setOnClickListener(new View.OnClickListener() {
@@ -112,7 +105,6 @@ public class RegistrationActivity extends AppCompatActivity {
         if (dbHelper.checkStudentIdExists(studentId)) {
             etStudentId.setError("This Student ID is already registered");
             etStudentId.requestFocus();
-            Toast.makeText(this, "Student ID already exists!", Toast.LENGTH_SHORT).show();
             return;
         }
 

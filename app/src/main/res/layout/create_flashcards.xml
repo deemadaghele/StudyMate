@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -16,501 +15,217 @@
         android:paddingTop="16dp"
         android:paddingBottom="32dp">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
+        <!-- Header -->
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp">
-
-            <TextView
-                android:id="@+id/tvHeader"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:text="Create a new study set"
-                android:textColor="#282E3E"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:fontFamily="sans-serif-medium" />
-
-            <Button
-                android:id="@+id/btnCreate"
-                android:layout_width="wrap_content"
-                android:layout_height="44dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:text="Create"
-                android:textSize="15sp"
-                android:textColor="#FFFFFF"
-                android:paddingStart="28dp"
-                android:paddingEnd="28dp"
-                app:cornerRadius="8dp"
-                app:backgroundTint="#4A90E2" />
-        </RelativeLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@drawable/modern_input_bg"
-            android:padding="16dp"
-            android:layout_marginBottom="12dp">
-
-            <EditText
-                android:id="@+id/etTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:hint="Enter a title, like Biology - Chapter 3"
-            android:textColorHint="#939BB4"
+            android:text="Create Flashcard"
             android:textColor="#282E3E"
-            android:textSize="16sp"
-            android:inputType="text"
-            android:maxLines="1" />
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-medium"
+            android:layout_marginBottom="24dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Title"
-                android:textColor="#586380"
-                android:textSize="11sp"
-                android:textStyle="bold"
-                android:layout_marginTop="4dp" />
-        </LinearLayout>
+        <!-- Course Spinner -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Course *"
+            android:textColor="#282E3E"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
 
-        <LinearLayout
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@drawable/modern_input_bg"
-            android:padding="16dp"
-            android:layout_marginBottom="20dp">
+            app:cardCornerRadius="12dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="#FFFFFF"
+            android:layout_marginBottom="16dp">
+
+            <Spinner
+                android:id="@+id/courseSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:padding="12dp"
+                android:spinnerMode="dropdown" />
+        </androidx.cardview.widget.CardView>
+
+        <!-- Chapter Input -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chapter (Optional)"
+            android:textColor="#282E3E"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="#FFFFFF"
+            android:layout_marginBottom="16dp">
 
             <EditText
-                android:id="@+id/etDescription"
+                android:id="@+id/chapterEditText"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="56dp"
                 android:background="@android:color/transparent"
-                android:hint="Add a description..."
+                android:hint="e.g., Chapter 3"
                 android:textColorHint="#939BB4"
                 android:textColor="#282E3E"
                 android:textSize="16sp"
-                android:minHeight="60dp"
-                android:gravity="top"
-                android:inputType="textMultiLine" />
+                android:inputType="text"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp" />
+        </androidx.cardview.widget.CardView>
 
-            <TextView
-                android:layout_width="wrap_content"
+        <!-- Question/Term Card -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Question/Term *"
+            android:textColor="#282E3E"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="#FFFFFF"
+            android:layout_marginBottom="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Description"
-                android:textColor="#586380"
-                android:textSize="11sp"
-                android:textStyle="bold"
-                android:layout_marginTop="4dp" />
-        </LinearLayout>
+                android:orientation="vertical"
+                android:padding="16dp">
 
+                <EditText
+                    android:id="@+id/questionEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:hint="Enter your question here"
+                    android:textColorHint="#939BB4"
+                    android:textColor="#282E3E"
+                    android:textSize="16sp"
+                    android:minHeight="100dp"
+                    android:gravity="top"
+                    android:inputType="textMultiLine" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:background="#4255FF"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="QUESTION"
+                    android:textColor="#586380"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Answer/Definition Card -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Answer/Definition *"
+            android:textColor="#282E3E"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="#FFFFFF"
+            android:layout_marginBottom="32dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <EditText
+                    android:id="@+id/answerEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:hint="Enter your answer here"
+                    android:textColorHint="#939BB4"
+                    android:textColor="#282E3E"
+                    android:textSize="16sp"
+                    android:minHeight="100dp"
+                    android:gravity="top"
+                    android:inputType="textMultiLine" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:background="#4255FF"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ANSWER"
+                    android:textColor="#586380"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Action Buttons -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="24dp">
+            android:gravity="center">
 
             <Button
-                android:id="@+id/btnImport"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:text="+ Import"
-                android:textColor="#586380"
-                android:textSize="14sp"
-                android:textAllCaps="false"
-                app:strokeColor="#D9DDE8"
-                app:strokeWidth="1.5dp"
-                app:cornerRadius="8dp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:layout_marginEnd="8dp" />
-
-            <Button
-                android:id="@+id/btnAddDiagram"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:text="+ Add diagram"
-                android:textColor="#586380"
-                android:textSize="14sp"
-                android:textAllCaps="false"
-                app:strokeColor="#D9DDE8"
-                app:strokeWidth="1.5dp"
-                app:cornerRadius="8dp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:layout_marginEnd="8dp" />
-
-            <View
+                android:id="@+id/addMoreButton"
                 android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1" />
+                android:layout_height="52dp"
+                android:layout_weight="1"
+                android:text="Save &amp; Add More"
+                android:textSize="15sp"
+                android:textColor="#4A90E2"
+                android:textAllCaps="false"
+                android:layout_marginEnd="8dp"
+                app:cornerRadius="10dp"
+                android:backgroundTint="#E3F2FD"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
 
-            <ImageView
-                android:id="@+id/btnSettings"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@android:drawable/ic_menu_preferences"
-                android:padding="10dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:clickable="true" />
+            <Button
+                android:id="@+id/saveButton"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_weight="1"
+                android:text="Save &amp; Close"
+                android:textSize="15sp"
+                android:textColor="#FFFFFF"
+                android:textAllCaps="false"
+                android:layout_marginStart="8dp"
+                app:cornerRadius="10dp"
+                app:backgroundTint="#4A90E2" />
         </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="2 cards"
-            android:textColor="#586380"
-            android:textSize="13sp"
-            android:layout_marginBottom="12dp" />
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="0dp"
-            android:layout_marginBottom="16dp"
-            app:cardBackgroundColor="#FFFFFF">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="20dp">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="1"
-                        android:textColor="#282E3E"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerVertical="true" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
-
-                        <ImageView
-                            android:id="@+id/btnDrag1"
-                            android:layout_width="28dp"
-                            android:layout_height="28dp"
-                            android:src="@android:drawable/ic_menu_sort_by_size"
-                            android:padding="6dp"
-                            android:layout_marginEnd="4dp"
-                            android:background="?attr/selectableItemBackgroundBorderless" />
-
-                        <ImageView
-                            android:id="@+id/btnDelete1"
-                            android:layout_width="28dp"
-                            android:layout_height="28dp"
-                            android:src="@android:drawable/ic_menu_delete"
-                            android:padding="6dp"
-                            android:background="?attr/selectableItemBackgroundBorderless" />
-                    </LinearLayout>
-                </RelativeLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#E8EBF0"
-                    android:layout_marginBottom="20dp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:baselineAligned="false">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:paddingEnd="12dp">
-
-                        <EditText
-                            android:id="@+id/etTerm1"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@android:color/transparent"
-                            android:hint="Enter term"
-                            android:textColorHint="#939BB4"
-                            android:textColor="#282E3E"
-                            android:textSize="15sp"
-                            android:minHeight="80dp"
-                            android:gravity="top"
-                            android:inputType="textMultiLine"
-                            android:layout_marginBottom="8dp" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="3dp"
-                            android:background="#4255FF"
-                            android:layout_marginBottom="8dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="TERM"
-                            android:textColor="#939BB4"
-                            android:textSize="11sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="match_parent"
-                        android:background="#E8EBF0"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginEnd="16dp" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <EditText
-                                android:id="@+id/etDefinition1"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@android:color/transparent"
-                                android:hint="Enter definition"
-                                android:textColorHint="#939BB4"
-                                android:textColor="#282E3E"
-                                android:textSize="15sp"
-                                android:minHeight="80dp"
-                                android:gravity="top"
-                                android:inputType="textMultiLine"
-                                android:layout_marginBottom="8dp" />
-
-                            <ImageView
-                                android:id="@+id/btnAddImage1"
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
-                                android:layout_alignParentEnd="true"
-                                android:layout_alignParentBottom="true"
-                                android:src="@android:drawable/ic_menu_gallery"
-                                android:padding="6dp"
-                                android:background="?attr/selectableItemBackgroundBorderless"
-                                android:clickable="true" />
-                        </RelativeLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="3dp"
-                            android:background="#4255FF"
-                            android:layout_marginBottom="8dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="DEFINITION"
-                            android:textColor="#939BB4"
-                            android:textSize="11sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="0dp"
-            android:layout_marginBottom="16dp"
-            app:cardBackgroundColor="#FFFFFF">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="20dp">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="2"
-                        android:textColor="#282E3E"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerVertical="true" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
-
-                        <ImageView
-                            android:id="@+id/btnDrag2"
-                            android:layout_width="28dp"
-                            android:layout_height="28dp"
-                            android:src="@android:drawable/ic_menu_sort_by_size"
-                            android:padding="6dp"
-                            android:layout_marginEnd="4dp"
-                            android:background="?attr/selectableItemBackgroundBorderless" />
-
-                        <ImageView
-                            android:id="@+id/btnDelete2"
-                            android:layout_width="28dp"
-                            android:layout_height="28dp"
-                            android:src="@android:drawable/ic_menu_delete"
-                            android:padding="6dp"
-                            android:background="?attr/selectableItemBackgroundBorderless" />
-                    </LinearLayout>
-                </RelativeLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#E8EBF0"
-                    android:layout_marginBottom="20dp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:baselineAligned="false">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:paddingEnd="12dp">
-
-                        <EditText
-                            android:id="@+id/etTerm2"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@android:color/transparent"
-                            android:hint="Enter term"
-                            android:textColorHint="#939BB4"
-                            android:textColor="#282E3E"
-                            android:textSize="15sp"
-                            android:minHeight="80dp"
-                            android:gravity="top"
-                            android:inputType="textMultiLine"
-                            android:layout_marginBottom="8dp" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="3dp"
-                            android:background="#4255FF"
-                            android:layout_marginBottom="8dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="TERM"
-                            android:textColor="#939BB4"
-                            android:textSize="11sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="match_parent"
-                        android:background="#E8EBF0"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginEnd="16dp" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <EditText
-                                android:id="@+id/etDefinition2"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@android:color/transparent"
-                                android:hint="Enter definition"
-                                android:textColorHint="#939BB4"
-                                android:textColor="#282E3E"
-                                android:textSize="15sp"
-                                android:minHeight="80dp"
-                                android:gravity="top"
-                                android:inputType="textMultiLine"
-                                android:layout_marginBottom="8dp" />
-
-                            <ImageView
-                                android:id="@+id/btnAddImage2"
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
-                                android:layout_alignParentEnd="true"
-                                android:layout_alignParentBottom="true"
-                                android:src="@android:drawable/ic_menu_gallery"
-                                android:padding="6dp"
-                                android:background="?attr/selectableItemBackgroundBorderless"
-                                android:clickable="true" />
-                        </RelativeLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="3dp"
-                            android:background="#4255FF"
-                            android:layout_marginBottom="8dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="DEFINITION"
-                            android:textColor="#939BB4"
-                            android:textSize="11sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <Button
-            android:id="@+id/btnAddCard"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="+ Add card"
-            android:textColor="#4A90E2"
-            android:textSize="15sp"
-            android:textAllCaps="false"
-            android:textStyle="bold"
-            android:paddingStart="0dp"
-            android:paddingEnd="0dp" />
 
     </LinearLayout>
 </ScrollView>
