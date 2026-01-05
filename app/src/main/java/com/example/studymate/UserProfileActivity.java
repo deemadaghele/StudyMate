@@ -18,6 +18,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private Button btnLogout;
     private String studentId;
     private DatabaseHelper dbHelper;
+    private SessionManager session;
     private Dialog logoutDialog;
     private MediaPlayer logoutSound;
 
@@ -26,8 +27,9 @@ public class UserProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_profile);
 
-        // Initialize database
+        // Initialize database and session
         dbHelper = new DatabaseHelper(this);
+        session = new SessionManager(this);
 
         // Get student ID
         studentId = getIntent().getStringExtra("studentId");
@@ -126,6 +128,11 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     private void logout() {
+        // Clear the session BEFORE going to login
+        if (session != null) {
+            session.logoutUser();  // Clear the session
+        }
+
         Toast.makeText(this, "Logged out successfully", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

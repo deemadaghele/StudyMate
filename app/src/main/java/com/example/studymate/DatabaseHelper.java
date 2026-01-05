@@ -14,7 +14,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Database Info
     public static final String DATABASE_NAME = "ITStudyMate.db";
-    public static final int DATABASE_VERSION = 3; // ← تم التحديث من 2 إلى 3
+    public static final int DATABASE_VERSION = 4;
 
     // Table Names
     public static final String TABLE_NOTES = "Notes";
@@ -49,7 +49,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String USER_PASSWORD = "password";
     public static final String USER_YEAR = "year";
     public static final String USER_REGISTRATION_DATE = "registration_date";
-
 
     public DatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -92,6 +91,39 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(createUsersTable);
         db.execSQL(createNotesTable);
         db.execSQL(createFlashcardsTable);
+
+        // Insert default courses
+        insertDefaultCourses(db);
+    }
+
+    private void insertDefaultCourses(SQLiteDatabase db) {
+        String[] defaultCourses = {
+                "ERP",
+                "MOBILE",
+                "JAVA",
+                "C++",
+                "TQM",
+                "Mobile Programming",
+                "Data Structures",
+                "Database Systems",
+                "Operating Systems",
+                "Computer Networks",
+                "Software Engineering",
+                "Web Development",
+                "Algorithms"
+        };
+
+        for (String course : defaultCourses) {
+            ContentValues cv = new ContentValues();
+            cv.put(NOTES_COURSE_NAME, course);
+            cv.put(NOTES_TITLE, "Sample");
+            cv.put(NOTES_CHAPTER, "0");
+            cv.put(NOTES_PDF_PATH, "none");
+            cv.put(NOTES_UPLOADED_BY, "system");
+            cv.put(NOTES_UPLOAD_DATE, getCurrentDate());
+            cv.put(NOTES_FILE_SIZE, 0);
+            db.insert(TABLE_NOTES, null, cv);
+        }
     }
 
     @Override
@@ -102,7 +134,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    // ============= USER METHODS  =============
+    // ============= USER METHODS =============
 
     public boolean insertUser(String name, String email, String studentId,
                               String password, String year) {
@@ -178,7 +210,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result > 0;
     }
 
-    // ============= INSERT METHODS =============
+    public boolean deleteUser(String studentId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int result = db.delete(TABLE_USERS, USER_STUDENT_ID + " = ?",
+                new String[]{studentId});
+        return result > 0;
+    }
+
+    // ============= NOTES METHODS =============
 
     public boolean insertNote(String title, String courseName, String chapter,
                               String pdfPath, String uploadedBy, long fileSize) {
@@ -197,6 +236,61 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result != -1;
     }
 
+    public Cursor getAllNotesByCourse(String courseName) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_NOTES +
+                " WHERE " + NOTES_COURSE_NAME + " = ?" +
+                " ORDER BY " + NOTES_UPLOAD_DATE + " DESC";
+        return db.rawQuery(query, new String[]{courseName});
+    }
+
+    public Cursor getNotesByUser(String studentId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_NOTES +
+                " WHERE " + NOTES_UPLOADED_BY + " = ?" +
+                " ORDER BY " + NOTES_UPLOAD_DATE + " DESC";
+        return db.rawQuery(query, new String[]{studentId});
+    }
+
+    public Cursor getAllNotes() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_NOTES +
+                " ORDER BY " + NOTES_UPLOAD_DATE + " DESC";
+        return db.rawQuery(query, null);
+    }
+
+    public Cursor searchNotes(String searchQuery) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_NOTES +
+                " WHERE " + NOTES_TITLE + " LIKE ? OR " +
+                NOTES_COURSE_NAME + " LIKE ?" +
+                " ORDER BY " + NOTES_UPLOAD_DATE + " DESC";
+        String searchPattern = "%" + searchQuery + "%";
+        return db.rawQuery(query, new String[]{searchPattern, searchPattern});
+    }
+
+    public int getUserNotesCount(String studentId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT COUNT(*) FROM " + TABLE_NOTES +
+                " WHERE " + NOTES_UPLOADED_BY + " = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{studentId});
+        int count = 0;
+        if (cursor.moveToFirst()) {
+            count = cursor.getInt(0);
+        }
+        cursor.close();
+        return count;
+    }
+
+    public boolean deleteNote(int noteId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int result = db.delete(TABLE_NOTES, NOTES_ID + " = ?",
+                new String[]{String.valueOf(noteId)});
+        return result > 0;
+    }
+
+    // ============= FLASHCARDS METHODS =============
+
     public boolean insertFlashcard(String question, String answer, String courseName,
                                    String chapter, String difficulty, String createdBy) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -214,16 +308,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result != -1;
     }
 
-    // ============= RETRIEVE METHODS =============
-
-    public Cursor getAllNotesByCourse(String courseName) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT * FROM " + TABLE_NOTES +
-                " WHERE " + NOTES_COURSE_NAME + " = ?" +
-                " ORDER BY " + NOTES_UPLOAD_DATE + " DESC";
-        return db.rawQuery(query, new String[]{courseName});
-    }
-
     public Cursor getAllFlashcardsByCourse(String courseName) {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM " + TABLE_FLASHCARDS +
@@ -239,57 +323,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.rawQuery(query, new String[]{courseName, chapter});
     }
 
-    public Cursor getAllCourses() {
+    public Cursor getFlashcardsByUser(String studentId) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT DISTINCT " + NOTES_COURSE_NAME +
-                " FROM " + TABLE_NOTES +
-                " ORDER BY " + NOTES_COURSE_NAME;
-        return db.rawQuery(query, null);
-    }
-
-    // ============= DELETE METHODS =============
-
-    public boolean deleteNote(int noteId) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        int result = db.delete(TABLE_NOTES, NOTES_ID + " = ?",
-                new String[]{String.valueOf(noteId)});
-        return result > 0;
-    }
-
-    public boolean deleteFlashcard(int flashcardId) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        int result = db.delete(TABLE_FLASHCARDS, FLASH_ID + " = ?",
-                new String[]{String.valueOf(flashcardId)});
-        return result > 0;
-    }
-
-    public boolean deleteUser(String studentId) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        int result = db.delete(TABLE_USERS, USER_STUDENT_ID + " = ?",
-                new String[]{studentId});
-        return result > 0;
-    }
-
-    // ============= HELPER METHODS =============
-
-    private String getCurrentDate() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-        return sdf.format(new Date());
-    }
-
-    // ============= USER STATISTICS =============
-
-    public int getUserNotesCount(String studentId) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT COUNT(*) FROM " + TABLE_NOTES +
-                " WHERE " + NOTES_UPLOADED_BY + " = ?";
-        Cursor cursor = db.rawQuery(query, new String[]{studentId});
-        int count = 0;
-        if (cursor.moveToFirst()) {
-            count = cursor.getInt(0);
-        }
-        cursor.close();
-        return count;
+        String query = "SELECT * FROM " + TABLE_FLASHCARDS +
+                " WHERE " + FLASH_CREATED_BY + " = ?" +
+                " ORDER BY " + FLASH_CREATION_DATE + " DESC";
+        return db.rawQuery(query, new String[]{studentId});
     }
 
     public int getUserFlashcardsCount(String studentId) {
@@ -305,58 +344,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return count;
     }
 
-    // ============= GET ALL ITEMS =============
-
-    public Cursor getNotesByUser(String studentId) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT * FROM " + TABLE_NOTES +
-                " WHERE " + NOTES_UPLOADED_BY + " = ?" +
-                " ORDER BY " + NOTES_UPLOAD_DATE + " DESC";
-        return db.rawQuery(query, new String[]{studentId});
+    public boolean deleteFlashcard(int flashcardId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int result = db.delete(TABLE_FLASHCARDS, FLASH_ID + " = ?",
+                new String[]{String.valueOf(flashcardId)});
+        return result > 0;
     }
 
-    public Cursor getFlashcardsByUser(String studentId) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT * FROM " + TABLE_FLASHCARDS +
-                " WHERE " + FLASH_CREATED_BY + " = ?" +
-                " ORDER BY " + FLASH_CREATION_DATE + " DESC";
-        return db.rawQuery(query, new String[]{studentId});
-    }
+    // ============= GENERAL METHODS =============
 
-    public Cursor getAllNotes() {
+    public Cursor getAllCourses() {
         SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT * FROM " + TABLE_NOTES +
-                " ORDER BY " + NOTES_UPLOAD_DATE + " DESC";
+        String query = "SELECT DISTINCT " + NOTES_COURSE_NAME +
+                " FROM " + TABLE_NOTES +
+                " ORDER BY " + NOTES_COURSE_NAME;
         return db.rawQuery(query, null);
     }
 
-    public Cursor getAllFlashcards() {
-        SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT * FROM " + TABLE_FLASHCARDS +
-                " ORDER BY " + FLASH_CREATION_DATE + " DESC";
-        return db.rawQuery(query, null);
-    }
-
-    // ============= SEARCH METHODS =============
-
-    public Cursor searchNotes(String searchQuery) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT * FROM " + TABLE_NOTES +
-                " WHERE " + NOTES_TITLE + " LIKE ? OR " +
-                NOTES_COURSE_NAME + " LIKE ?" +
-                " ORDER BY " + NOTES_UPLOAD_DATE + " DESC";
-        String searchPattern = "%" + searchQuery + "%";
-        return db.rawQuery(query, new String[]{searchPattern, searchPattern});
-    }
-
-    public Cursor searchFlashcards(String searchQuery) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT * FROM " + TABLE_FLASHCARDS +
-                " WHERE " + FLASH_QUESTION + " LIKE ? OR " +
-                FLASH_ANSWER + " LIKE ? OR " +
-                FLASH_COURSE_NAME + " LIKE ?" +
-                " ORDER BY " + FLASH_CREATION_DATE + " DESC";
-        String searchPattern = "%" + searchQuery + "%";
-        return db.rawQuery(query, new String[]{searchPattern, searchPattern, searchPattern});
+    private String getCurrentDate() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        return sdf.format(new Date());
     }
 }

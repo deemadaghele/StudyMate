@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
             // User is logged in, go to MainActivity
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
-            finish();
+            finish(); // Finish the current activity to prevent going back to login
         }
 
         // Login button click

@@ -20,7 +20,15 @@
             android:gravity="center_vertical"
             android:padding="16dp">
 
-
+            <ImageView
+                android:id="@+id/btnBack"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                android:padding="8dp"
+                android:tint="#FFFFFF"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true" />
 
             <TextView
                 android:layout_width="0dp"
@@ -32,6 +40,15 @@
                 android:textStyle="bold"
                 android:layout_marginStart="12dp" />
 
+            <ImageView
+                android:id="@+id/btnHelp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@android:drawable/ic_menu_help"
+                android:padding="8dp"
+                android:tint="#FFFFFF"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
@@ -228,7 +245,6 @@
                         android:src="@android:drawable/ic_menu_upload"
                         android:tint="#4A90E2"
                         android:layout_marginBottom="20dp"
-                        android:background="@drawable/upload_icon_bg"
                         android:padding="16dp" />
 
                     <TextView
